@@ -1,16 +1,73 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Data in Boxes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 50px;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .box:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
 <body>
+    <h1>API Data in Boxes</h1>
+    <div class="box-container" id="box-container">
+        <!-- Boxes will be populated here -->
+    </div>
 
-<h1>My First JavaScript</h1>
+    <script>
+        // Example API URL (you can replace this with any API URL)
+        const apiUrl = 'https://jsonplaceholder.typicode.com/posts';  // Example API endpoint
 
-<button type="button"
-onclick="document.getElementById('demo').innerHTML = Date()">
-Click me to display Date and Time.</button>
+        // Fetch data from the API
+        fetch(apiUrl)
+            .then(response => response.json())  // Parse the response as JSON
+            .then(data => {
+                // Find the container where boxes will be displayed
+                const container = document.getElementById('box-container');
 
-<p id="demo"></p>
+                // Dynamically create boxes based on the API data
+                data.slice(0, 6).forEach(item => {  // Only take the first 6 items (you can modify this)
+                    const box = document.createElement('div');  // Create a new div element
+                    box.classList.add('box');  // Add the 'box' class to the div
+                    box.innerText = item.title;  // Insert data (title) from the API into the box
 
+                    // Add a click event listener to each box
+                    box.addEventListener('click', () => {
+                        box.style.backgroundColor = "#e74c3c";  // Change background color on click
+                    });
+
+                    container.appendChild(box);  // Append the box to the container
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    </script>
 </body>
-</html> 
-
+</html>
