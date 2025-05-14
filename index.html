@@ -45,7 +45,7 @@
         const apiUrl = 'http://134.209.209.139:8000/';  // Example API endpoint
 
         // Fetch data from the API
-        Get(apiUrl)
+        fetch(apiUrl)
             .then(response => response.json())  // Parse the response as JSON
             .then(data => {
                 // Find the container where boxes will be displayed
