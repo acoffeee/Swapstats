@@ -2,20 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Multiple Boxes</title>
-  <h1 style="text-size: 50px; text-align: center;"> The people of swap</h1>
+  <title>Two-Column Boxes</title>
+  <h1 style="text-size: 50; text-align: center;"> Inside the people of swaps mind...</h1>
+  <style>
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .box {
+      border: 1px solid black;
+      padding: 20% 15%;
+      width: 50%;
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 <body>
-  <div style="border: 1px solid black; margin: 0; padding: 20% 15%;">
-    Box 1
-  </div>
-
-  <div style="border: 1px solid black; margin: 0; padding: 20% 15%;">
-    Box 2
-  </div>
-
-  <div style="border: 1px solid black; margin: 0; padding: 20% 15%;">
-    Box 3
+  <div class="container">
+    <div class="box">Box 1</div>
+    <div class="box">Box 2</div>
+    <div class="box">Box 3</div>
+    <div class="box">Box 4</div>
   </div>
 </body>
 </html>
