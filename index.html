@@ -7,13 +7,14 @@
   <p>Why should I enter my anilist username??? The stats displayed depend on everyone. It will be more fun and accurate to see stats that reflect stats that reflect more of swap than less. </p>
 </head>
 <body>
-  <input type="text" id="textInput" placeholder="Enter text here">
-  <button id="submitButton">Submit</button>
+  <p> So if You want to find out our favorite anime, and least join up! </p>
+  <input type="text" id="AnilistUsername" placeholder="Anilist User here">
+  <button id="submitUsername">Submit</button>
   <p id="output"></p>
 
   <script>
-    document.getElementById('submitButton').addEventListener('click', function() {
-      const inputValue = document.getElementById('textInput').value;
+    document.getElementById('submitUsername').addEventListener('click', function() {
+      const inputValue = document.getElementById('AnilistUsername').value;
       document.getElementById('output').textContent = inputValue;
     });
   </script>
