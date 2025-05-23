@@ -2,47 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Dynamic Boxes</title>
-  <h1 style="font-size: 50px; text-align: center;"> The people come together</h1>
-  <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      padding: 20px;
-    }
-    .box {
-      width: 100px;
-      height: 100px;
-      background-color: lightgray;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-weight: bold;
-      border-radius: 8px;
-      transition: background-color 0.3s;
-    }
-  </style>
+  <title>Multiple Boxes</title>
+  <h1 style="text-size: 50px; text-align: center;"> The people of swap</h1>
 </head>
 <body>
+  <div style="border: 1px solid black; margin: 0; padding: 20% 15%;">
+    Box 1
+  </div>
 
-<script>
-  const colors = ['#FF6B6B', '#6BCB77', '#4D96FF', '#FFD93D', '#A66DD4'];
-  
-  for (let i = 1; i <= 9; i++) {
-    const box = document.createElement('div');
-    box.className = 'box';
-    box.textContent = `Box ${i}`;
-    box.addEventListener('click', () => {
-      box.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    });
-    document.body.appendChild(box);
-  }
-</script>
+  <div style="border: 1px solid black; margin: 0; padding: 20% 15%;">
+    Box 2
+  </div>
 
+  <div style="border: 1px solid black; margin: 0; padding: 20% 15%;">
+    Box 3
+  </div>
 </body>
 </html>
-
