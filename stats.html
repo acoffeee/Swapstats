@@ -1,1 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Boxes</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+    }
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: lightgray;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  const colors = ['#FF6B6B', '#6BCB77', '#4D96FF', '#FFD93D', '#A66DD4'];
+  
+  for (let i = 1; i <= 9; i++) {
+    const box = document.createElement('div');
+    box.className = 'box';
+    box.textContent = `Box ${i}`;
+    box.addEventListener('click', () => {
+      box.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    });
+    document.body.appendChild(box);
+  }
+</script>
+
+</body>
+</html>
 
