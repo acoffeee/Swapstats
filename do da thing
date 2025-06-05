@@ -1,1 +1,45 @@
+import requests
+import asyncio
+import json
+swapper_list = ['coffeee']
 
+def query_swapper_list(user):
+    url = 'https://graphql.anilist.co'
+    query =  '''
+  query($userName: String) {
+              MediaListCollection(userName: $userName, type: ANIME,status: COMPLETED, sort: FINISHED_ON ){
+                user{
+                  name
+                  id
+                    statistics{
+                      anime{
+                        count
+                        meanScore
+                        standardDeviation
+                      }
+                    }
+                }
+                lists{
+                  name
+                    entries{
+                      score
+                        media{
+                          id
+                        }
+                    }
+                }
+              }
+            }
+        '''
+    shtuff = {'userName': user}
+    response = requests.post(url, json={'query': query, 'variables': shtuff})
+    swapper_info = response.json()
+    swapper_info['data']['MediaListCollection']['lists'] = swapper_info['data']['MediaListCollection']['lists'][0]
+    return swapper_info
+swappers_info = {}
+for swapper in swapper_list:
+    info = query_swapper_list(swapper)
+    users_name = info['data']['MediaListCollection']['user']['name']
+    print(users_name)
+    swappers_info[users_name] = info
+print(swappers_info)
