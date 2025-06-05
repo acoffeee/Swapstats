@@ -1,7 +1,8 @@
 import requests
 import asyncio
 import json
-swapper_list = ['coffeee']
+
+swappers_unqueried = ['coffeee', 'normalgrinn', 'awspear']
 
 def query_swapper_list(user):
     url = 'https://graphql.anilist.co'
@@ -34,12 +35,33 @@ def query_swapper_list(user):
     shtuff = {'userName': user}
     response = requests.post(url, json={'query': query, 'variables': shtuff})
     swapper_info = response.json()
-    swapper_info['data']['MediaListCollection']['lists'] = swapper_info['data']['MediaListCollection']['lists'][0]
+    try:
+      swapper_info['data']['MediaListCollection']['lists'] = swapper_info['data']['MediaListCollection']['lists'][0]
+    except:
+      print("fat rip")
     return swapper_info
 swappers_info = {}
-for swapper in swapper_list:
-    info = query_swapper_list(swapper)
+async def query_thy_swapper(swapper):
+  info = query_swapper_list(swapper)
+  try:
     users_name = info['data']['MediaListCollection']['user']['name']
-    print(users_name)
     swappers_info[users_name] = info
+  except:
+    print(info)
+    if info['errors'][0]['message'] == "User not found":
+      print("user dont exist")
+    else: 
+      for i in range(0,60):
+        print(f'rate limit rip, left: {60 - i}')
+        await asyncio.sleep(1)
+      await query_thy_swapper(swapper)
+  return
+async def query_swappers():
+  for swapper in swappers_unqueried:
+    await query_thy_swapper(swapper)
+
+asyncio.run(query_swappers())
 print(swappers_info)
+// that was the query moment, add logic to save.
+for swapper in swappers_info:
+  if s
