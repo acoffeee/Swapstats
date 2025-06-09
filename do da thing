@@ -106,8 +106,8 @@ def compafinddifferences(formatted_list):
   return differenceofscores
 def calculatefinalstandarddeviationmean(bunchonumbers):
   sum = 0
-  for i in bunchonumbers:
-    sum += bunchonumbers[i]
+  for difference in bunchonumbers:
+    sum += difference
   finalanswer = sum / bunchonumbers.length()
   return finalanswer
 
