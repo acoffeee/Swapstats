@@ -108,7 +108,7 @@ def calculatefinalstandarddeviationmean(bunchonumbers):
   sum = 0
   for difference in bunchonumbers:
     sum += difference
-  finalanswer = sum / bunchonumbers.length()
+  finalanswer = sum / len(bunchonumbers)
   return finalanswer
 
 all_comparisions = []
@@ -123,7 +123,7 @@ for swapper in swappers_info:
       matched_list = matchlists(standerdized_swapper_list, other_swapper_sd_list)
       compared_lists = compafinddifferences(matched_list)
       compatibility = calculatefinalstandarddeviationmean(compared_lists)
-      format_compatibility = { "name": other_swapper.key, "rating": compatibility, "entries_shared": matched_list.length };
+      format_compatibility = { "name": other_swapper, "rating": compatibility, "entries_shared": len(matched_list) }
       # //format it in order to list it
       # //append the result to a new dict
       all_comparisions.append(format_compatibility)
