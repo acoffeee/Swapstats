@@ -24,6 +24,8 @@ def query_swapper(user) -> dict:
                                 media{
                                     title{
                                         english
+                                        romanji
+                                        Native
                                     }
                                     id
                                     tags{
@@ -70,6 +72,7 @@ def filter_completed_list(swapper_info: dict) -> dict:
     for i in range(0,len(swapper_info['data']['MediaListCollection']['lists']['entries'])):
       anime = swapper_info['data']['MediaListCollection']['lists']['entries'][i]
       swapper_info['data']['MediaListCollection']['lists']['entries'][i] = {"score": anime['score'], "media": {"id": anime['media']['id']}}
+      print(anime)
     return swapper_info
 
 
