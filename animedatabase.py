@@ -34,10 +34,10 @@ def connect():
     except sqlite3.OperationalError as e:
         print("Failed to open database:", e)
 
-def add_anime(anime: dict) -> Null:
+def add_anime(anime: dict):
     id = anime['id']
     n = anime['media']
-    name = (n['title']['english'], n['title']['romaji'], n['title']['native'])
+    name = (n['title']['english'], n['title']['romanji'], n['title']['Native'])
     scores = 0
 
     tags = '('
@@ -60,11 +60,10 @@ def add_anime(anime: dict) -> Null:
 
     add_statement = f''' 
     INSERT OR IGNORE INTO anime_table (id, name, scores, tags, format, season, seasonYear, episodes, genres, global_score, studio) VALUES ({id}, {name}, {scores}, {tags}, {format}, {season}, {seasonYear}, {episodes}, {genres}, {global_score}, {studio});'''
-def final_thing(anime: dict):
+def final_thing():
     results = create_db()
     conn = connect()
     if results == False:
         create_anime_db()
-        add_anime(anime)
+    
     conn.commit()
-    conn.close()

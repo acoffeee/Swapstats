@@ -1,7 +1,7 @@
 #  query stuff.py
 import requests
 import asyncio
-
+import animedatabase 
 def query_swapper(user) -> dict:
     url = 'https://graphql.anilist.co'
     query =  '''
@@ -24,8 +24,8 @@ def query_swapper(user) -> dict:
                                 media{
                                     title{
                                         english
-                                        romanji
-                                        Native
+                                        romaji
+                                        native
                                     }
                                     id
                                     tags{
@@ -65,6 +65,7 @@ def query_swapper(user) -> dict:
     shtuff = {'userName': user}
     response = requests.post(url, json={'query': query, 'variables': shtuff})
     swapper_info = response.json()
+    print(swapper_info)
     return swapper_info
 
 def filter_completed_list(swapper_info: dict) -> dict:
@@ -72,13 +73,13 @@ def filter_completed_list(swapper_info: dict) -> dict:
     for i in range(0,len(swapper_info['data']['MediaListCollection']['lists']['entries'])):
       anime = swapper_info['data']['MediaListCollection']['lists']['entries'][i]
       swapper_info['data']['MediaListCollection']['lists']['entries'][i] = {"score": anime['score'], "media": {"id": anime['media']['id']}}
-      print(anime)
+      animedatabase.final_thing(anime)
     return swapper_info
 
 
 async def query_swapper_with_error_handdling(swapper: str) -> dict:
-    info = query_swapper(swapper)
     try:
+      info = query_swapper(swapper)
       return info
     except:
       # print(info)
