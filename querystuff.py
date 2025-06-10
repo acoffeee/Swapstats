@@ -5,30 +5,60 @@ import asyncio
 def query_swapper(user) -> dict:
     url = 'https://graphql.anilist.co'
     query =  '''
-  query($userName: String) {
-              MediaListCollection(userName: $userName, type: ANIME,status: COMPLETED, sort: FINISHED_ON ){
-                user{
-                  name
-                  id
-                    statistics{
-                      anime{
-                        count
-                        meanScore
-                        standardDeviation
-                      }
-                    }
-                }
-                lists{
-                  name
-                    entries{
-                      score
-                        media{
-                          id
+    query($userName: String){
+                    MediaListCollection(userName: $userName, type: ANIME,status: COMPLETED, sort: FINISHED_ON ){
+                        user{
+                            name
+                            statistics{
+                                anime{
+                                count
+                                meanScore
+                                standardDeviation
+                                }
+                            }
+                        }
+                        lists{
+                        name
+                            entries{
+                                score
+                                media{
+                                    title{
+                                        english
+                                    }
+                                    id
+                                    tags{
+                                    name
+                                    rank
+                                    }
+                                    format
+                                    season
+                                    seasonYear
+                                    episodes
+                                    genres
+                                    averageScore
+                                    studios{
+                                        edges{
+                                            isMain
+                                            node{
+                                                name
+                                            }
+                                        }
+                                    }
+                                    staff{
+                                        edges{
+                                        role
+                                            node{
+                                                name{
+                                                    full
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-              }
-            }
         '''
     shtuff = {'userName': user}
     response = requests.post(url, json={'query': query, 'variables': shtuff})
@@ -37,6 +67,9 @@ def query_swapper(user) -> dict:
 
 def filter_completed_list(swapper_info: dict) -> dict:
     swapper_info['data']['MediaListCollection']['lists'] = swapper_info['data']['MediaListCollection']['lists'][0]
+    for i in range(0,len(swapper_info['data']['MediaListCollection']['lists']['entries'])):
+      anime = swapper_info['data']['MediaListCollection']['lists']['entries'][i]
+      swapper_info['data']['MediaListCollection']['lists']['entries'][i] = {"score": anime['score'], "media": {"id": anime['media']['id']}}
     return swapper_info
 
 
