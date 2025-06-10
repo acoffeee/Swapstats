@@ -1,9 +1,19 @@
 import requests
 import asyncio
-import user_management as um
-import 
+import usermanagement as um
+import os
+import json
+um.ultimate_management()
 swappers_info = {}
-swappers_unqueried = []
+def get_user_info() -> dict:
+  for user in os.scandir('/users/'):
+    if user == 'userslist.json':
+      continue
+    else:
+      with open(f'/users/{user}', 'r') as u:
+        temp = u.json()
+        swappers_info[temp['data']['MediaListCollection']['user']['name']] = temp
+"""
 def query_swapper_list(user):
     url = 'https://graphql.anilist.co'
     query =  '''
@@ -64,7 +74,7 @@ async def query_swappers():
 asyncio.run(query_swappers())
 print(swappers_info)
 # // that was the query moment, add logic to save.
-
+"""
 def standerdize(thy_swapper):
   different_lists = thy_swapper['data']['MediaListCollection']['lists']
   temp = []
