@@ -37,7 +37,7 @@ def connect():
 def add_anime(anime: dict):
     id = anime['id']
     n = anime['media']
-    name = (n['title']['english'], n['title']['romanji'], n['title']['Native'])
+    name = (n['title']['english'], n['title']['romaji'], n['title']['Native'])
     scores = 0
 
     tags = '('
