@@ -45,12 +45,12 @@ async def query_swapper_with_error_handdling(swapper: str) -> dict:
     try:
       return info
     except:
-      print(info)
+      # print(info)
       if info['errors'][0]['message'] == "User not found":
         print("user doesnt exist")
       else: 
         for i in range(0,60):
-          print(f'rate limit rip, left: {60 - i}')
+          # print(f'rate limit rip, left: {60 - i}')
           await asyncio.sleep(1)
         await query_swapper_with_error_handdling(swapper)
 

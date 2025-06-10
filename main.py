@@ -6,14 +6,15 @@ import json
 um.ultimate_management()
 swappers_info = {}
 def get_user_info() -> dict:
-  for user in os.scandir('/users/'):
-    if user == 'userslist.json':
+  for user in os.listdir('users'):
+    if user == 'userlist.json':
       continue
     else:
+      # print(str(user))
       with open(f'users/{user}', 'r') as u:
-        temp = u.json()
+        temp = json.load(u)
         swappers_info[temp['data']['MediaListCollection']['user']['name']] = temp
-
+get_user_info()
 """
 def query_swapper_list(user):
     url = 'https://graphql.anilist.co'
@@ -82,7 +83,7 @@ def standerdize(thy_swapper):
   for list_name in different_lists:
     temp = different_lists['entries']
     break
-  print(temp)
+  # print(temp)
   new_list = []
   mean = thy_swapper['data']['MediaListCollection']['user']['statistics']['anime']['meanScore'];
   SD = thy_swapper['data']['MediaListCollection']['user']['statistics']['anime']['standardDeviation'];
@@ -126,6 +127,7 @@ def calculatefinalstandarddeviationmean(bunchonumbers):
 all_comparisions = []
 for swapper in swappers_info:
   standerdized_swapper_list = standerdize(swappers_info[swapper])
+  swapper_compatibility = {swapper: []}
   for other_swapper in swappers_info:
     if other_swapper == swapper:
       continue
@@ -136,7 +138,6 @@ for swapper in swappers_info:
       compared_lists = compafinddifferences(matched_list)
       compatibility = calculatefinalstandarddeviationmean(compared_lists)
       format_compatibility = { "name": other_swapper, "rating": compatibility, "entries_shared": len(matched_list) }
-      # //format it in order to list it
-      # //append the result to a new dict
-      all_comparisions.append(format_compatibility)
+      swapper_compatibility[swapper].append(format_compatibility)
+    all_comparisions.append(swapper_compatibility)
 print(all_comparisions)

@@ -56,7 +56,7 @@ def ultimate_management():
         new_users = get_new_users(user_list)
         for user in new_users:
             new_user = qs.final_thing(user)
-            with open(f'users/{new_user['data']['MediaListCollection']['user']['name']}.json', 'w') as f:
+            with open(f"users/{new_user['data']['MediaListCollection']['user']['name']}.json", 'w') as f:
                 json.dump(new_user, f, indent=2)
     else:
         create_path()
