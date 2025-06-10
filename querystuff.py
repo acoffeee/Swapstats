@@ -36,12 +36,13 @@ def query_swapper(user) -> dict:
     return swapper_info
 
 def filter_completed_list(swapper_info: dict) -> dict:
+    print(swapper_info)
     swapper_info['data']['MediaListCollection']['lists'] = swapper_info['data']['MediaListCollection']['lists'][0]
     return swapper_info
 
 
 async def query_swapper_with_error_handdling(swapper: str) -> dict:
-    info = query_swapper_list(swapper)
+    info = query_swapper(swapper)
     try:
       return info
     except:
@@ -56,7 +57,7 @@ async def query_swapper_with_error_handdling(swapper: str) -> dict:
 
 
 def final_thing(swapper: str) -> dict:
-    swapper_info = query_swapper_with_error_handdling(swapper)
+    swapper_info = asyncio.run(query_swapper_with_error_handdling(swapper))
     filtered_swapper = filter_completed_list(swapper_info)
     return filtered_swapper
 def main():

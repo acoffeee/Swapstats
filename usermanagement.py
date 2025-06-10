@@ -5,12 +5,14 @@ import time
 import querystuff as qs
 from pathlib import Path
 # check if files exist
+import datetime
 def get_date() -> str:
-    seconds = time.time()
-    formatted_time = time.strftime("%Y-%m-%d", seconds)
-    return formatted_time
+    now = datetime.datetime.now()
+    today = now.date()
+    return today
+
 def check_if_thing_even_exists() -> bool:
-    path = '/users/'
+    path = 'users'
     path_exists = os.path.exists(path)
     return path_exists
 def create_path():
@@ -22,13 +24,14 @@ def create_user_list():
         json.dump(template, userlist, indent=2)
 
 def get_users() -> list:
-    with open('/users/userlist.json', 'r') as nusers:
-        users = nusers.json()
+    with open('users/userlist.json', 'r') as nusers:
+        users = json.load(nusers)
     return users
 
 def get_new_users(user_list: list) -> list:
     nusers = []
-    time_now = get_date()
+    date = get_date()
+    time_now = f'{date.year}-{date.month}-{date.day}'
     for user in user_list['new_users']:
         nusers.append(user)
         user_stuff = {"name": user, "updatedAt": time_now}
@@ -45,7 +48,7 @@ def ultimate_management():
         new_users = get_new_users(user_list)
         for user in new_users:
             new_user = qs.final_thing(user)
-            with open(f'/users/{new_user['data']['MediaListCollection']['user']['name']}.json', 'w') as f:
+            with open(f'users/{new_user['data']['MediaListCollection']['user']['name']}.json', 'w') as f:
                 json.dump(new_user, f, indent=2)
     else:
         create_path()
