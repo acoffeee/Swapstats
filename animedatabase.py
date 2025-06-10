@@ -35,19 +35,18 @@ def connect():
         print("Failed to open database:", e)
 
 def add_anime(anime: dict):
-    id = anime['id']
     n = anime['media']
-    name = (n['title']['english'], n['title']['romaji'], n['title']['Native'])
+    id = n['id']
+    name = (n['title']['english'], n['title']['romaji'], n['title']['native'])
     scores = 0
 
     tags = '('
-    for tags in n['tags']:
-        for tag, rank in tags:
-            if rank >= 70:
-                tags.join(tag + ",")
-            else:
-                tags.join(tag + ")")
-                break
+    for tag in n['tags']:
+        if tag['rank']>= 70:
+            tags.join(tag['name'] + ",")
+        else:
+            tags.join(tag['name'] + ")")
+            break
     format = n['format']
     season = n['season']
     seasonYear = n['seasonYear']
@@ -56,14 +55,16 @@ def add_anime(anime: dict):
     for genre in n['genres']:
         genres.join("(" + genre + ")")
     global_score  = n['averageScore']
-    studio = n['studios']['edges']['0']['node']['name']
+    studio = n['studios']['edges'][0]['node']['name']
 
     add_statement = f''' 
     INSERT OR IGNORE INTO anime_table (id, name, scores, tags, format, season, seasonYear, episodes, genres, global_score, studio) VALUES ({id}, {name}, {scores}, {tags}, {format}, {season}, {seasonYear}, {episodes}, {genres}, {global_score}, {studio});'''
-def final_thing():
+
+def final_thing(anime: dict):
     results = create_db()
     conn = connect()
     if results == False:
         create_anime_db()
-    
+    add_anime(anime)
     conn.commit()
+    conn.close()
