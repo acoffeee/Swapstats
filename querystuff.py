@@ -36,7 +36,6 @@ def query_swapper(user) -> dict:
     return swapper_info
 
 def filter_completed_list(swapper_info: dict) -> dict:
-    print(swapper_info)
     swapper_info['data']['MediaListCollection']['lists'] = swapper_info['data']['MediaListCollection']['lists'][0]
     return swapper_info
 

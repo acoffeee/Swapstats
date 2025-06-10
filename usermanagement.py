@@ -19,8 +19,16 @@ def create_path():
     dir_path = Path("users")
     dir_path.mkdir(parents=True, exist_ok=True)
 def create_user_list():
+    people = []
+    print("type \"no\" if you dont want to add anyone")
+    while True:
+        ask = input("add user (loops if you want multiple): ")
+        if ask.lower() == "no":
+            break
+        else:
+            people.append(ask)
     with open("users/userlist.json", 'w') as userlist:
-        template = {"old_users": [], "new_users": []}
+        template = {"old_users": [], "new_users": people}
         json.dump(template, userlist, indent=2)
 
 def get_users() -> list:
@@ -38,7 +46,7 @@ def get_new_users(user_list: list) -> list:
         user_list['old_users'].append(user_stuff)
     template = {"old_users": user_list['old_users'], "new_users": []}
     with open("users/userlist.json", 'w') as u:
-        json.dump(user_list, u, indent=2)
+        json.dump(template, u, indent=2)
     return nusers
 
 def ultimate_management():
