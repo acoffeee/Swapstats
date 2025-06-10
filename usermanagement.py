@@ -12,14 +12,14 @@ def get_date() -> str:
 def check_if_thing_even_exists() -> bool:
     path = '/users/'
     path_exists = os.path.exists(path)
-    return path
+    return path_exists
 def create_path():
     dir_path = Path("users")
     dir_path.mkdir(parents=True, exist_ok=True)
 def create_user_list():
-    with open("/users/userlist.json", 'w') as userlist:
+    with open("users/userlist.json", 'w') as userlist:
         template = {"old_users": [], "new_users": []}
-        json.dumps(template, userlist, indent=2)
+        json.dump(template, userlist, indent=2)
 
 def get_users() -> list:
     with open('/users/userlist.json', 'r') as nusers:
@@ -35,7 +35,7 @@ def get_new_users(user_list: list) -> list:
         user_list['old_users'].append(user_stuff)
     template = {"old_users": user_list['old_users'], "new_users": []}
     with open("users/userlist.json", 'w') as u:
-        json.dumps(user_list, u, indent=2)
+        json.dump(user_list, u, indent=2)
     return nusers
 
 def ultimate_management():
@@ -46,7 +46,7 @@ def ultimate_management():
         for user in new_users:
             new_user = qs.final_thing(user)
             with open(f'/users/{new_user['data']['MediaListCollection']['user']['name']}.json', 'w') as f:
-                json.dumps(new_user, f, indent=2)
+                json.dump(new_user, f, indent=2)
     else:
         create_path()
         create_user_list()
