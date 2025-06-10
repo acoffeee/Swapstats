@@ -1,9 +1,9 @@
 import requests
 import asyncio
-import json
-
-swappers_unqueried = ['coffeee', 'normalgrinn', 'awspear']
-
+import user_management as um
+import 
+swappers_info = {}
+swappers_unqueried = []
 def query_swapper_list(user):
     url = 'https://graphql.anilist.co'
     query =  '''
@@ -40,7 +40,7 @@ def query_swapper_list(user):
     except:
       print("fat rip")
     return swapper_info
-swappers_info = {}
+
 async def query_thy_swapper(swapper):
   info = query_swapper_list(swapper)
   try:
@@ -56,6 +56,7 @@ async def query_thy_swapper(swapper):
         await asyncio.sleep(1)
       await query_thy_swapper(swapper)
   return
+
 async def query_swappers():
   for swapper in swappers_unqueried:
     await query_thy_swapper(swapper)
