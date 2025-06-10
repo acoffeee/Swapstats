@@ -10,9 +10,10 @@ def get_user_info() -> dict:
     if user == 'userslist.json':
       continue
     else:
-      with open(f'/users/{user}', 'r') as u:
+      with open(f'users/{user}', 'r') as u:
         temp = u.json()
         swappers_info[temp['data']['MediaListCollection']['user']['name']] = temp
+
 """
 def query_swapper_list(user):
     url = 'https://graphql.anilist.co'
