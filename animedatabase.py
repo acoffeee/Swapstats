@@ -1,7 +1,6 @@
 #animedatabase.py
 import sqlite3
 import os
-
 def create_db() -> bool:
     if os.path.exists("anime.db"):
         return True
@@ -9,7 +8,7 @@ def create_db() -> bool:
         with open("anime.db", 'w'):
             pass
         return False
-def create_anime_db():
+def create_anime_db(pointer):
     anime_table = '''
     CREATE TABLE IF NOT EXISTS ANIMES (
     id INTEGER PRIMARY KEY, 
@@ -25,27 +24,19 @@ def create_anime_db():
     studio TEXT
     );
     '''
-    conn.execute(anime_table)
-def connect():
-    try:
-        with sqlite3.connect("anime.db") as conn:
-            return conn
-
-    except sqlite3.OperationalError as e:
-        print("Failed to open database:", e)
+    pointer.execute(anime_table)
 
 def add_anime(anime: dict):
     n = anime['media']
     id = n['id']
-    name = (n['title']['english'], n['title']['romaji'], n['title']['native'])
+    name = f"({n['title']['english']}, {n['title']['romaji']}, {n['title']['native']})"
     scores = 0
-
     tags = '('
     for tag in n['tags']:
         if tag['rank']>= 70:
-            tags.join(tag['name'] + ",")
+            tags = tags.join(tag['name'] + ",")
         else:
-            tags.join(tag['name'] + ")")
+            tags = tags.join(tag['name'] + ")")
             break
     format = n['format']
     season = n['season']
@@ -53,18 +44,27 @@ def add_anime(anime: dict):
     episodes = n['episodes']
     genres = ''
     for genre in n['genres']:
-        genres.join("(" + genre + ")")
+        genres = genres.join("(" + genre + ")")
     global_score  = n['averageScore']
-    studio = n['studios']['edges'][0]['node']['name']
+    try:
+        studio = n['studios']['edges'][0]['node']['name']
+    except:
+        studio = 'NuLL'
+    query = """INSERT OR IGNORE INTO ANIMES (
+    id, name, scores, tags, format, season, seasonYear, episodes, genres, global_score, studio
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
 
-    add_statement = f''' 
-    INSERT OR IGNORE INTO anime_table (id, name, scores, tags, format, season, seasonYear, episodes, genres, global_score, studio) VALUES ({id}, {name}, {scores}, {tags}, {format}, {season}, {seasonYear}, {episodes}, {genres}, {global_score}, {studio});'''
-
+    values = (id, name, scores, tags, format, season, seasonYear, episodes, genres, global_score, studio)
+    return query, values
 def final_thing(anime: dict):
     results = create_db()
-    conn = connect()
+    conn = sqlite3.connect('anime.db')
+    pointer = conn.cursor()
     if results == False:
-        create_anime_db()
-    add_anime(anime)
+        create_anime_db(pointer)
+    query, values = add_anime(anime)
+    pointer.execute(query, values)
     conn.commit()
+    pointer.close()
     conn.close()
+    print("success")
