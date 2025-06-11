@@ -12,7 +12,9 @@ def create_anime_db(pointer):
     anime_table = '''
     CREATE TABLE IF NOT EXISTS ANIMES (
     id INTEGER PRIMARY KEY, 
-    name TEXT NOT NULL,
+    english TEXT NOT NULL,
+    romaji TEXT,
+    native TEXT,
     scores INT,
     tags TEXT,
     format TEXT,
@@ -20,8 +22,9 @@ def create_anime_db(pointer):
     seasonYear INT,
     episodes INT,
     genres TEXT,
-    global_score INT,
     studio TEXT
+    watch_count INT,
+    average_deviation INT
     );
     '''
     pointer.execute(anime_table)
@@ -29,12 +32,16 @@ def create_anime_db(pointer):
 def add_anime(anime: dict):
     n = anime['media']
     id = n['id']
-    name = f"({n['title']['english']}, {n['title']['romaji']}, {n['title']['native']})"
+    english = n['title']['english']
+    romaji = n['title']['romaji']
+    native = n['title']['native']
+    watch_count = 0
+    average_deviation = 0
     scores = 0
     tags = '('
     for tag in n['tags']:
         if tag['rank']>= 70:
-            tags = tags.join(tag['name'] + ",")
+            tags += tag['name'] + ", "
         else:
             tags = tags.join(tag['name'] + ")")
             break
@@ -44,17 +51,16 @@ def add_anime(anime: dict):
     episodes = n['episodes']
     genres = ''
     for genre in n['genres']:
-        genres = genres.join("(" + genre + ")")
-    global_score  = n['averageScore']
+        genres += "(" + genre + ") "
     try:
         studio = n['studios']['edges'][0]['node']['name']
     except:
         studio = 'NuLL'
     query = """INSERT OR IGNORE INTO ANIMES (
-    id, name, scores, tags, format, season, seasonYear, episodes, genres, global_score, studio
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
+    id, english, romaji, native, scores, tags, format, season, seasonYear, episodes, genres, global_score, studio, watch_count, average_deviation
+) VALUES (?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
 
-    values = (id, name, scores, tags, format, season, seasonYear, episodes, genres, global_score, studio)
+    values = (id, english, romaji, native, scores, tags, format, season, seasonYear, episodes, genres, studio, watch_count, average_deviation)
     return query, values
 def final_thing(anime: dict):
     results = create_db()

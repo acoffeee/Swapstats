@@ -36,8 +36,8 @@ def query_swapper(user) -> dict:
                                     season
                                     seasonYear
                                     episodes
+                                    duration
                                     genres
-                                    averageScore
                                     studios{
                                         edges{
                                             isMain
