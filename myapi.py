@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+import Fastapi, jsonify, request
 
 app = Flask(__name__)
 

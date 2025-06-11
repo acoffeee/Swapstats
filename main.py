@@ -84,4 +84,5 @@ for swapper in swappers_info:
       format_compatibility = { "name": other_swapper, "rating": compatibility, "entries_shared": len(matched_list) }
       swapper_compatibility[swapper].append(format_compatibility)
     all_comparisions.append(swapper_compatibility)
-print(all_comparisions)
+with open("results.json", "w") as f:
+  json.dump(all_comparisions, f, indent=2)
