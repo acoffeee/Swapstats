@@ -3,7 +3,7 @@ import asyncio
 import usermanagement as um
 import os
 import json
-import 
+import update_db
 um.ultimate_management()
 swappers_info = {}
 def get_user_info() -> dict:
@@ -70,6 +70,8 @@ all_comparisions = []
 for swapper in swappers_info:
   standerdized_swapper_list = standerdize(swappers_info[swapper])
   swapper_compatibility = {swapper: []}
+  update_db.process_list(standerdized_swapper_list)
+  print("stuff")
   for other_swapper in swappers_info:
     if other_swapper == swapper:
       continue

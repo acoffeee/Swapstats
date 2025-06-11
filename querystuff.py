@@ -65,7 +65,7 @@ def query_swapper(user) -> dict:
     shtuff = {'userName': user}
     response = requests.post(url, json={'query': query, 'variables': shtuff})
     swapper_info = response.json()
-    print(swapper_info)
+    # print(swapper_info)
     return swapper_info
 
 def filter_completed_list(swapper_info: dict) -> dict:

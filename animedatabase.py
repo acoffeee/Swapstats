@@ -12,7 +12,7 @@ def create_anime_db(pointer):
     anime_table = '''
     CREATE TABLE IF NOT EXISTS ANIMES (
     id INTEGER PRIMARY KEY, 
-    english TEXT NOT NULL,
+    english TEXT,
     romaji TEXT,
     native TEXT,
     scores INT,
@@ -21,10 +21,11 @@ def create_anime_db(pointer):
     season TEXT,
     seasonYear INT,
     episodes INT,
+    duration INT,
     genres TEXT,
-    studio TEXT
-    watch_count INT,
-    average_deviation INT
+    studio TEXT,
+    watchcount INT,
+    averagedeviation INT
     );
     '''
     pointer.execute(anime_table)
@@ -32,9 +33,12 @@ def create_anime_db(pointer):
 def add_anime(anime: dict):
     n = anime['media']
     id = n['id']
+    if id == 487:
+        print(anime['media'])
     english = n['title']['english']
     romaji = n['title']['romaji']
     native = n['title']['native']
+    duration = n['duration']
     watch_count = 0
     average_deviation = 0
     scores = 0
@@ -43,7 +47,7 @@ def add_anime(anime: dict):
         if tag['rank']>= 70:
             tags += tag['name'] + ", "
         else:
-            tags = tags.join(tag['name'] + ")")
+            tags += tag['name'] + ")"
             break
     format = n['format']
     season = n['season']
@@ -57,10 +61,10 @@ def add_anime(anime: dict):
     except:
         studio = 'NuLL'
     query = """INSERT OR IGNORE INTO ANIMES (
-    id, english, romaji, native, scores, tags, format, season, seasonYear, episodes, genres, global_score, studio, watch_count, average_deviation
-) VALUES (?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
+    id, english, romaji, native, scores, tags, format, season, seasonYear, episodes, duration, genres, studio, watchcount, averagedeviation
+) VALUES (?, ?, ?, ?, ?,  ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
 
-    values = (id, english, romaji, native, scores, tags, format, season, seasonYear, episodes, genres, studio, watch_count, average_deviation)
+    values = (id, english, romaji, native, scores, tags, format, season, seasonYear, episodes, duration, genres, studio, watch_count, average_deviation)
     return query, values
 def final_thing(anime: dict):
     results = create_db()
@@ -73,4 +77,4 @@ def final_thing(anime: dict):
     conn.commit()
     pointer.close()
     conn.close()
-    print("success")
+    # print("success")
