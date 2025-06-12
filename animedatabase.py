@@ -32,8 +32,8 @@ def create_anime_db(pointer):
 def add_anime(anime: dict):
     n = anime['media']
     id = n['id']
-    if id == 487:
-        print(anime['media'])
+    #if id == 487:
+       # print(anime['media'])
     english = n['title']['english']
     romaji = n['title']['romaji']
     native = n['title']['native']

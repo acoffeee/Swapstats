@@ -31,8 +31,8 @@ def create_user_list():
         template = {"old_users": [], "new_users": people}
         json.dump(template, userlist, indent=2)
 
-def get_users() -> list:
-    with open('users/userlist.json', 'r') as nusers:
+def get_users():
+    with open("users/userlist.json", 'r') as nusers:
         users = json.load(nusers)
     return users
 
@@ -56,8 +56,9 @@ def ultimate_management():
         new_users = get_new_users(user_list)
         for user in new_users:
             new_user = qs.final_thing(user)
-            with open(f"users/{new_user['data']['MediaListCollection']['user']['name']}.json", 'w') as f:
+            with open(f"users/{new_user['data']['MediaListCollection']['user']['name'].lower()}.json", 'w') as f:
                 json.dump(new_user, f, indent=2)
+        return new_users
     else:
         create_path()
         create_user_list()
