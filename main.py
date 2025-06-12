@@ -67,22 +67,25 @@ def calculatefinalstandarddeviationmean(bunchonumbers):
   return finalanswer
 
 all_comparisions = []
-for swapper in swappers_info:
-  standerdized_swapper_list = standerdize(swappers_info[swapper])
-  swapper_compatibility = {swapper: []}
-  update_db.process_list(standerdized_swapper_list)
-  print("stuff")
-  for other_swapper in swappers_info:
-    if other_swapper == swapper:
-      continue
-    else:
-      other_swapper_list = swappers_info[other_swapper]
-      other_swapper_sd_list = standerdize(other_swapper_list)
-      matched_list = matchlists(standerdized_swapper_list, other_swapper_sd_list)
-      compared_lists = compafinddifferences(matched_list)
-      compatibility = calculatefinalstandarddeviationmean(compared_lists)
-      format_compatibility = { "name": other_swapper, "rating": compatibility, "entries_shared": len(matched_list) }
-      swapper_compatibility[swapper].append(format_compatibility)
-    all_comparisions.append(swapper_compatibility)
-with open("results.json", "w") as f:
-  json.dump(all_comparisions, f, indent=2)
+def calculate_everyone():
+  # extremely inefficent but tbh i just gave up ion what to do
+  for swapper in swappers_info:
+    standerdized_swapper_list = standerdize(swappers_info[swapper])
+    swapper_compatibility = {swapper: []}
+    update_db.process_list(standerdized_swapper_list)
+    print("stuff")
+    for other_swapper in swappers_info:
+      if other_swapper == swapper:
+        break
+      else:
+        other_swapper_list = swappers_info[other_swapper]
+        other_swapper_sd_list = standerdize(other_swapper_list)
+        matched_list = matchlists(standerdized_swapper_list, other_swapper_sd_list)
+        compared_lists = compafinddifferences(matched_list)
+        compatibility = calculatefinalstandarddeviationmean(compared_lists)
+        format_compatibility = { "name": other_swapper, "rating": compatibility, "entries_shared": len(matched_list) }
+        swapper_compatibility[swapper].append(format_compatibility)
+      all_comparisions.append(swapper_compatibility)
+  with open("results.json", "w") as f:
+    json.dump(all_comparisions, f, indent=2)
+calculate_everyone()

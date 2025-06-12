@@ -19,7 +19,7 @@ def create_path():
     dir_path = Path("users")
     dir_path.mkdir(parents=True, exist_ok=True)
 def create_user_list():
-    people = ["coffeee", "grinn", "awspear"]
+    people = ["coffeee", "grinn", "awspear", "otjale"]
     print("type \"no\" if you dont want to add anyone")
     ##while True:
     #   # ask = input("add user (loops if you want multiple): ")

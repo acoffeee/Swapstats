@@ -6,8 +6,7 @@ def create_db() -> bool:
         return True
     else:
         with open("anime.db", 'w'):
-            pass
-        return False
+            return False
 def create_anime_db(pointer):
     anime_table = '''
     CREATE TABLE IF NOT EXISTS ANIMES (
